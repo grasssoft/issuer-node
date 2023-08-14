@@ -14,6 +14,7 @@ import { useIssuerStateContext } from "src/contexts/IssuerState";
 import { ROUTES } from "src/routes";
 import { isAsyncTaskDataAvailable } from "src/utils/async";
 import {
+  AUTH_URL,
   CONNECTIONS,
   CREDENTIALS,
   CREDENTIALS_TABS,
@@ -77,6 +78,15 @@ export function SiderMenu({
   const onMenuClick = (path: string) => {
     onClick();
     navigate(path);
+  };
+
+  const dispachEvent = (value: string) => {
+    console.log("data to ext:", value);
+    const hrefValue = `iden3comm://?i_m=${value}`;
+    console.log("link to ext:", hrefValue);
+
+    const _authEvent = new CustomEvent("authEvent", { detail: hrefValue });
+    document.dispatchEvent(_authEvent);
   };
 
   return (
@@ -149,7 +159,7 @@ export function SiderMenu({
               icon: <IconFile />,
               key: "documentation",
               label: (
-                <Typography.Link href={TUTORIALS_URL} target="_blank">
+                <Typography.Link onClick={() => dispachEvent(AUTH_URL)} target="_blank">
                   <Row justify="space-between">
                     <span>Documentation</span>
 

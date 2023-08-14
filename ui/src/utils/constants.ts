@@ -4,6 +4,7 @@ import { CredentialsTabIDs } from "src/domain";
 export const ACCESSIBLE_UNTIL = "Accessible until";
 export const CLOSE = "Close";
 export const CONNECTIONS = "Connections";
+export const AUTH = "Authorization";
 export const CREDENTIAL_LINK = "Credential link";
 export const CREDENTIALS = "Credentials";
 export const DELETE = "Delete";
@@ -68,6 +69,9 @@ export const SIDER_WIDTH = 320;
 export const TOAST_NOTIFICATION_TIMEOUT = 6;
 
 export const TUTORIALS_URL = "https://0xpolygonid.github.io/tutorials";
+//export const AUTH_URL = '{"id":"0978b809-7406-4932-8a9f-b8a20c529073","typ":"application/iden3comm-plain-json","type":"https://iden3-communication.io/authorization/1.0/request","thid":"0978b809-7406-4932-8a9f-b8a20c529073","body":{"callbackUrl":"http://localhost:3002/v1/credentials/links/callback?sessionID=0978b809-7406-4932-8a9f-b8a20c529073","reason":"test flow","scope":[]},"from":"did:nbo:besu:test:4bszAHM67zwBo1Uqx8Q7HmDjWdXKGYQMEXxRHFJmba"}';
+export const AUTH_URL =
+  "eyJpZCI6IjA5NzhiODA5LTc0MDYtNDkzMi04YTlmLWI4YTIwYzUyOTA3MyIsInR5cCI6ImFwcGxpY2F0aW9uL2lkZW4zY29tbS1wbGFpbi1qc29uIiwidHlwZSI6Imh0dHBzOi8vaWRlbjMtY29tbXVuaWNhdGlvbi5pby9hdXRob3JpemF0aW9uLzEuMC9yZXF1ZXN0IiwidGhpZCI6IjA5NzhiODA5LTc0MDYtNDkzMi04YTlmLWI4YTIwYzUyOTA3MyIsImJvZHkiOnsiY2FsbGJhY2tVcmwiOiJodHRwOi8vbG9jYWxob3N0OjMwMDIvdjEvYXV0aGVudGljYXRpb24vY2FsbGJhY2s/c2Vzc2lvbklkPTA5NzhiODA5LTc0MDYtNDkzMi04YTlmLWI4YTIwYzUyOTA3MyIsInJlYXNvbiI6InRlc3QgZmxvdyIsInNjb3BlIjpbXX0sImZyb20iOiJkaWQ6bmJvOmJlc3U6dGVzdDo0YnN6QUhNNjd6d0JvMVVxeDhRN0htRGpXZFhLR1lRTUVYeFJIRkptYmEifQ==";
 
 export const WALLET_APP_STORE_URL = "https://apps.apple.com/us/app/polygon-id/id1629870183";
 

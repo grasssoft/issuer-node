@@ -1,4 +1,16 @@
-import { Avatar, Card, Divider, Dropdown, Row, Space, Table, Tag, Tooltip, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Card,
+  Divider,
+  Dropdown,
+  Row,
+  Space,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useCallback, useEffect, useState } from "react";
 import { generatePath, useNavigate, useSearchParams } from "react-router-dom";
@@ -20,6 +32,8 @@ import { ROUTES } from "src/routes";
 import { AsyncTask, isAsyncTaskDataAvailable, isAsyncTaskStarting } from "src/utils/async";
 import { isAbortedError, makeRequestAbortable } from "src/utils/browser";
 import {
+  AUTH,
+  AUTH_URL,
   CONNECTIONS,
   DELETE,
   DETAILS,
@@ -167,6 +181,18 @@ export function ConnectionsTable() {
     [setSearchParams]
   );
 
+  const dispachEvent = (value: string) => {
+    console.log("data to ext:", value);
+    const hrefValue = `iden3comm://?i_m=${value}`;
+    console.log("link to ext:", hrefValue);
+
+    const _authEvent = new CustomEvent("authEvent", { detail: hrefValue });
+    document.dispatchEvent(_authEvent);
+
+    // CreateAuthenticationQRCode
+    // onClick={() => navigate(generatePath(ROUTES.credentialLinkQR.path))}
+  };
+
   useEffect(() => {
     const { aborter } = makeRequestAbortable(fetchConnections);
 
@@ -178,6 +204,16 @@ export function ConnectionsTable() {
   return (
     <SiderLayoutContent
       description="Connections are established via a secure channel upon issuing credentials to users."
+      extra={
+        <Button
+          icon={<IconCreditCardPlus />}
+          onClick={() => dispachEvent(AUTH_URL)}
+          //onClick={() => createCredentialQR()}
+          type="primary"
+        >
+          {AUTH}
+        </Button>
+      }
       title={CONNECTIONS}
     >
       <Divider />

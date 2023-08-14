@@ -1,0 +1,17 @@
+curl 'http://localhost:3002/v1/schemas' \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Accept-Language: en-US,en;q=0.9,pl;q=0.8,it;q=0.7' \
+  -H 'Authorization: Basic dXNlci1hcGk6cGFzc3dvcmQtYXBp' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Origin: http://localhost:8088' \
+  -H 'Referer: http://localhost:8088/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  --data-raw '{"description":"desc","schemaType":"KYCCountryOfResidenceCredential","title":"title","url":"https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json/KYCCountryOfResidenceCredential-v4.json","version":"v1"}' \
+  --compressed

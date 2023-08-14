@@ -412,6 +412,7 @@ export async function createAuthQRCode({
       signal,
       url: `${API_VERSION}/credentials/links/${linkID}/qrcode`,
     });
+
     return buildSuccessResponse(authQRCodeParser.parse(response.data));
   } catch (error) {
     return buildErrorResponse(error);

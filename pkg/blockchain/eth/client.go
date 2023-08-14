@@ -5,7 +5,6 @@ import (
 	"crypto/ecdsa"
 	"errors"
 	"fmt"
-	"math"
 	"math/big"
 	"strings"
 	"time"
@@ -13,10 +12,8 @@ import (
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/misc"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/params"
 	"github.com/iden3/contracts-abi/state/go/abi"
 
 	"github.com/polygonid/sh-id-platform/internal/log"
@@ -329,47 +326,13 @@ func (c *Client) CreateRawTx(ctx context.Context, txParams TransactionParams) (*
 		return nil, fmt.Errorf("failed to estimate gas: %v", err)
 	}
 
-	latestBlockHeader, err := c.HeaderByNumber(ctx, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	if txParams.BaseFee == nil {
-		// since ETH and Polygon blockchain already supports London fork.
-		// no need set special block.
-		baseFee := misc.CalcBaseFee(&params.ChainConfig{LondonBlock: big.NewInt(1)}, latestBlockHeader)
-
-		// add 25% to baseFee. baseFee always small value.
-		// since we use dynamic fee transactions we will get not used gas back.
-		b := math.Round(float64(baseFee.Int64()) * feeIncrement)
-		baseFee = big.NewInt(int64(b))
-		txParams.BaseFee = baseFee
-	}
-
-	if txParams.GasTips == nil {
-		_ctx3, cancel3 := context.WithTimeout(ctx, c.Config.RPCResponseTimeout)
-		defer cancel3()
-		gasTip, err := c.client.SuggestGasTipCap(_ctx3)
-		// since hardhad doesn't support 'eth_maxPriorityFeePerGas' rpc call.
-		// we should hardcode 0 as a mainer tips. More information: https://github.com/NomicFoundation/hardhat/issues/1664#issuecomment-1149006010
-		if err != nil && strings.Contains(err.Error(), "eth_maxPriorityFeePerGas not found") {
-			log.Error(ctx, "failed get suggest gas tip: %s. use 0 instead", "err", err)
-			gasTip = big.NewInt(0)
-		} else if err != nil {
-			return nil, fmt.Errorf("failed get suggest gas tip: %v", err)
-		}
-		txParams.GasTips = gasTip
-	}
-
-	maxGasPricePerFee := big.NewInt(0).Add(txParams.BaseFee, txParams.GasTips)
-	baseTx := &types.DynamicFeeTx{
+	baseTx := &types.LegacyTx{
 		To:        &txParams.ToAddress,
 		Nonce:     *txParams.Nonce,
 		Gas:       gasLimit,
 		Value:     big.NewInt(0),
 		Data:      txParams.Payload,
-		GasTipCap: txParams.GasTips,
-		GasFeeCap: maxGasPricePerFee,
+		GasPrice:  big.NewInt(0), 
 	}
 
 	tx := types.NewTx(baseTx)
